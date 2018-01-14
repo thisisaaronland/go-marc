@@ -14,7 +14,7 @@ All of this package's dependencies are bundled with the code in the `vendor` dir
 
 ## Handlers
 
-### MapzenJSHandler(http.Handler, mapzenjs.MapzenJSOptions) (http.Handler, error)
+### MapzenJSHandler(http.Handler, MapzenJSOptions) (http.Handler, error)
 
 This handler will optionally modify the output of the `your_handler http.Handler` as follows:
 
@@ -146,6 +146,10 @@ Currently the following styles are bundled with this package:
 
 * [refill](https://tangrams.github.io/refill-style/)
 * [walkabout](https://tangrams.github.io/walkabout-style/)
+
+## To do
+
+* Add a tile caching proxy
 
 ## See also 
 

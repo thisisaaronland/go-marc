@@ -3,6 +3,8 @@ package main
 import (
 	"flag"
 	"fmt"
+	"github.com/thisisaaronland/go-slippy-tiles"
+	"github.com/thisisaaronland/go-slippy-tiles/provider"	
 	"github.com/thisisaaronland/go-marc/http"
 	"github.com/whosonfirst/go-http-mapzenjs"
 	"log"
@@ -73,6 +75,37 @@ func main() {
 
 	mux.Handle("/bbox", bbox_handler)
 	mux.Handle("/ping", ping_handler)
+
+	// WIP - tile caching...
+
+	cache := slippytiles.CacheConfig{
+	      Name: "disk",
+	      Path: "/tmp",	// PLEASE FIX ME
+	}
+	
+	mapzen_url := fmt.Sprintf("https://tile.mapzen.com/mapzen/vector/v1/512/all/{z}/{x}/{y}.topojson?api_key=%s", opts.APIKey)
+	
+	mapzen_config := slippytiles.LayerConfig{
+		URL: mapzen_url,      
+		Formats: []string{ "topojson" },
+	}
+	
+	layers := slippytiles.LayersConfig{ "mapzen": mapzen_config }
+	
+	config := slippytiles.Config{
+		Cache: cache,
+		Layers: layers,
+	}
+
+	tiles_handler, err := provider.NewProxyProvider(&config)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	mux.Handle("/tiles", tiles_handler)
+	
+	// EO WIP
 
 	address := fmt.Sprintf("%s:%d", *host, *port)
 	log.Printf("listening on %s\n", address)
