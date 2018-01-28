@@ -20,12 +20,16 @@ func IntersectsHandler() (gohttp.Handler, error) {
 			return
 		}
 
+		// sudo put me in a function... (20180128/thisisaaronland)
+
 		reader, err := csv.NewDictReader(fh)
 
 		if err != nil {
 			gohttp.Error(rsp, err.Error(), gohttp.StatusInternalServerError)
 			return
 		}
+
+		sanitize_opts := sanitize.DefaultOptions()
 
 		for {
 			row, err := reader.Read()
@@ -39,14 +43,13 @@ func IntersectsHandler() (gohttp.Handler, error) {
 				return
 			}
 
-			marc_raw, ok := row["034"]
+			marc_raw, ok := row["marc_034"]
 
 			if !ok {
-				continue // throw an error?
+				continue		// throw an error?
 			}
 
-			opts := sanitize.DefaultOptions()
-			marc_clean, err := sanitize.SanitizeString(marc_raw, opts)
+			marc_clean, err := sanitize.SanitizeString(marc_raw, sanitize_opts)
 
 			if err != nil {
 				gohttp.Error(rsp, err.Error(), gohttp.StatusBadRequest)
@@ -72,6 +75,7 @@ func IntersectsHandler() (gohttp.Handler, error) {
 
 			log.Println(bbox)
 
+			// FIND INTERSECTING THINGS HERE...
 		}
 
 	}
