@@ -22,11 +22,11 @@ deps:
 	@GOPATH=$(GOPATH) go get -u "github.com/whosonfirst/go-sanitize"	
 	@GOPATH=$(GOPATH) go get -u "github.com/whosonfirst/go-whosonfirst-bbox"
 	@GOPATH=$(GOPATH) go get -u "github.com/whosonfirst/go-whosonfirst-csv"
-	@GOPATH=$(GOPATH) go get -u "github.com/jteeuwen/go-bindata/"
+	@GOPATH=$(GOPATH) go get -u "github.com/zendesk/go-bindata/"
 	@GOPATH=$(GOPATH) go get -u "github.com/elazarl/go-bindata-assetfs/"
 	@GOPATH=$(GOPATH) go get -u "github.com/whosonfirst/go-http-mapzenjs"
 	@GOPATH=$(GOPATH) go get -u "github.com/whosonfirst/go-whosonfirst-csv"
-	rm -rf src/github.com/jteeuwen/go-bindata/testdata
+	rm -rf src/github.com/zendesk/go-bindata/testdata
 
 vendor-deps: rmdeps deps
 	if test ! -d vendor; then mkdir vendor; fi

@@ -140,8 +140,13 @@ func (h MapzenJSWriter) ServeHTTP(rsp http.ResponseWriter, req *http.Request) {
 	}
 
 	wr.Flush()
-	
+
 	for k, v := range rec.Header() {
+
+		if k == "Content-Length" {
+			continue
+		}
+
 		rsp.Header()[k] = v
 	}
 
